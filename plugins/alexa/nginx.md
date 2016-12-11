@@ -168,6 +168,8 @@ You can create a Sitemap at /var/www/sitemap/index.html to give a nice overview 
 /etc/nginx/htpasswd
 format is `user:password`
 generate passwords using `openssl passwd "YOUR-PASSWORD"`
+Users have reported that using openssl for generating the password this way. An alternative is:
+htpasswd -c htpasswd.alexa username  (htpasswd.alexa is the htpasswd file that is generated)
 
 # Let's Encrypt SSL Certificate
 - download certbot from https://certbot.eff.org/
