@@ -16,9 +16,30 @@ Please use [this thread for support, questions, feedback etc.](https://knx-user-
 - create the lambda-function in EU-Ireland (which supports Alexa in both english and german)
 - copy & paste `aws_lambda.js` as a `Node.js` Lambda
 - provide the environmental variables as specified in the header of `aws_lambda.js`
+- the user:password you pass as enviromental variables must match the password of the https server that runs on your smarthome server (i.e. Reverse Proxy, see nginx.md)
 
 # Shortcomings / Pitfalls
 This plugin/s service *does not offer any ssl or authentication*! It is strongly recommended to use a reverse-proxy in your smarthome to enforce HTTPS and authentication. As of now, the shipped `aws_lambda.js` only supports HTTPS-calls with HTTP Basic Authentication. See the shipped `nginx.md` for an example configuration of the lightweight and very good reverse-proxy Nginx.
+The popular "myfritz" dyndns-service does support sub-domains. Instead, the provider twodns.de can be used.
+The https certificate can be created with letsencrypt. It is recommended to create one certificate for all subdomains (use multiple "-d" parameters, e.g. -d me.my-wan.de -d alexa.me.my-wan.de -d visu.me.my-wan.de. Do not forget to add a crontab-entry to renew the certificate every 90 days.
+
+# Testing during Setup
+When accessing https://alexa.my.dyndns.org (note: https) you should get a prompt for your user/password. When entering this, you should get 
+´´ 
+Error response
+
+Error code: 501
+
+Message: Unsupported method ('GET').
+
+Error code explanation: 501 - Server does not support this operation.
+´´ 
+If you get this message, the configuration of your server-side (reverse-proxy, plugin) is correct.
+
+As a next step, you should search your Alexa-Skill. Users have reported that it does not show up in the Alexa-App, but only on alexa.amazon.com. Here you find it under "Skills" and not under "Smart Home" (at least until it is installed; then you find it under Smart Home) on the top right under "My Skills".
+
+After activating the Skill, go to "Smart Home" in the Alexa-App and let Alexa search for new devices (you must configure the items before, as explained below). If they appear, the communication between Alexa/AWS and the Smarthome Plugin is ok.
+
 
 # Configuration
 
